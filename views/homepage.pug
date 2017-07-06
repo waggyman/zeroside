@@ -1,0 +1,89 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		title ZeroSide: Anonymous File Sharing
+
+		link(rel='apple-touch-icon', sizes='57x57', href='/assets/images/favicon/apple-icon-57x57.png')
+		link(rel='apple-touch-icon', sizes='60x60', href='/assets/images/favicon/apple-icon-60x60.png')
+		link(rel='apple-touch-icon', sizes='72x72', href='/assets/images/favicon/apple-icon-72x72.png')
+		link(rel='apple-touch-icon', sizes='76x76', href='/assets/images/favicon/apple-icon-76x76.png')
+		link(rel='apple-touch-icon', sizes='114x114', href='/assets/images/favicon/apple-icon-114x114.png')
+		link(rel='apple-touch-icon', sizes='120x120', href='/assets/images/favicon/apple-icon-120x120.png')
+		link(rel='apple-touch-icon', sizes='144x144', href='/assets/images/favicon/apple-icon-144x144.png')
+		link(rel='apple-touch-icon', sizes='152x152', href='/assets/images/favicon/apple-icon-152x152.png')
+		link(rel='apple-touch-icon', sizes='180x180', href='/assets/images/favicon/apple-icon-180x180.png')
+		link(rel='icon', type='image/png', sizes='192x192', href='/assets/images/favicon/android-icon-192x192.png')
+		link(rel='icon', type='image/png', sizes='32x32', href='/assets/images/favicon/favicon-32x32.png')
+		link(rel='icon', type='image/png', sizes='96x96', href='/assets/images/favicon/favicon-96x96.png')
+		link(rel='icon', type='image/png', sizes='16x16', href='/assets/images/favicon/favicon-16x16.png')
+		link(rel='manifest', href='/assets/images/favicon/manifest.json')
+		meta(name='msapplication-TileColor', content='#44a6ca')
+		meta(name='msapplication-TileImage', content='/assets/images/favicon/ms-icon-144x144.png')
+		meta(name='theme-color', content='#44a6ca')
+
+		link(href='/assets/css/bulma.css', rel='stylesheet')
+
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+	body(style='height: 100vh')
+		section.hero.is-medium.is-info
+			.hero-body
+				.container
+					h1.title.is-1
+						| ZeroSide
+					h2.subtitle
+						| Open Source &amp; Anonymous File Sharing
+
+		br
+		div.container
+			.columns
+				.column.is-one-third
+					article.message.is-info
+						.message-header
+							p Features
+						.message-body
+							| ZeroSide offer theres features :
+							dl
+								li Your IP is not saved, there is no geolocation
+								li Unlimited file size to upload
+								li You can choose expiration time (30min to 7days)
+								li Customize your download URL
+								li Get stats on your uploads
+								li Full API for apps
+
+					article.message.is-primary
+						.message-header
+							p Informations
+						.message-body
+							p.
+								ZeroSide is also open source on GitHub!
+								This one is developped in PHP :)
+								<br><br>
+								Big thanks to:
+								<dl>
+									<li>Our Telegram Group for testing</li>
+									<li>Jeremy Thomas for <a href='http://bulma.io'>Bulma</a></li>
+								</dl>
+				.column
+					.field
+						label.label Download URL
+						p.control
+							input.input(type='text', placeholder='Name your download URL', onkeyup="check(this.value)")
+						p.help#message
+
+						br
+
+						label.label Statistics URL
+						p.control
+							input.input#staturl(type='text', placeholder='Stat URL', readonly='readonly')
+
+					br
+					.has-text-centered
+						input(type='file', style="display: none")#actual-upload
+						button.button.is-large#upload Choose a file to upload
+						br
+						br
+						button.button.is-success#submit Upload file!
+					br
+					progress(class="progress is-info", value="0", max="100")#progress
+		script(src='/assets/js/zeroside.js')

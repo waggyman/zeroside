@@ -4,8 +4,36 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitef8618845758339514e5e110048efdb3
+class ComposerStaticInitbe2d4d896eea2ad3255d02c8c0f1ecec
 {
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Pug\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/pug-php/pug/src',
+            ),
+        ),
+        'N' => 
+        array (
+            'NodejsPhpFallback\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/nodejs-php-fallback/nodejs-php-fallback/src',
+            ),
+        ),
+        'J' => 
+        array (
+            'JsPhpize' => 
+            array (
+                0 => __DIR__ . '/..' . '/js-phpize/js-phpize/src',
+            ),
+            'Jade\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/pug-php/pug/src',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'AltoRouter' => __DIR__ . '/..' . '/altorouter/altorouter/AltoRouter.php',
     );
@@ -13,7 +41,8 @@ class ComposerStaticInitef8618845758339514e5e110048efdb3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInitef8618845758339514e5e110048efdb3::$classMap;
+            $loader->prefixesPsr0 = ComposerStaticInitbe2d4d896eea2ad3255d02c8c0f1ecec::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitbe2d4d896eea2ad3255d02c8c0f1ecec::$classMap;
 
         }, null, ClassLoader::class);
     }
