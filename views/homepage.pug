@@ -81,6 +81,15 @@ html
 						p.control
 							input.input#staturl(type='text', placeholder='Stat URL', value="https://www.zeroside.co/#{id}", readonly='readonly')
 
+						br
+
+						label.label Expiration
+						p.control
+							span.select
+								select#expiration
+									option(selected, value="24") 1 day (24h)
+									option(value='48') 2 days (48h)
+									option(value='168') 7 days (168h)
 					br
 					.has-text-centered
 						input(type='file', style="display: none")#actual-upload

@@ -24,7 +24,9 @@ setlocale(LC_ALL,'en_US.UTF-8');
 # file_url  | TEXT -> File custom URL
 # file_ext  | TEXT -> File extension
 # file_size | TEXT -> Human readable file size (with B/KB/MB/GB extension)
+# file_time | INT  -> Time where is file is expired
 # stat_dl   | INT  -> Number of downloads
+# stat_id   | INT  -> Identifier to access stats page
 #-----------------
 
 $host = "localhost";
@@ -66,6 +68,7 @@ $router->map('GET', '/', function(){
 
 	# Sending file
 	global $id;
+
 	echo $pug->render($file, array(
 		"id" => $id
 	));
@@ -130,13 +133,14 @@ $router->map('POST', '/api/upload/[:url]', function($furl){
 
 	global $db;
 	global $id;
-	$request = $db->prepare("INSERT INTO `files`(`file_name`, `file_path`, `file_url`, `file_ext`, `file_size`, `stat_dl`, `stat_id`) VALUES (:name, :file_path, :url, :ext, :size, :stat, :stat_id)");
+	$request = $db->prepare("INSERT INTO `files`(`file_name`, `file_path`, `file_url`, `file_ext`, `file_size`, `file_time`, `stat_dl`, `stat_id`) VALUES (:name, :file_path, :url, :ext, :size, :file_time, :stat, :stat_id)");
 	$request->execute(array(
 		":name" => $name,
 		":file_path" => $real,
 		":url" => $url,
 		":ext" => $extension,
 		":size" => $size,
+		":file_time" => $time,
 		":stat" => $downloads,
 		":stat_id" => $id
 	));
