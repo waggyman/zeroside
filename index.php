@@ -8,6 +8,31 @@ Open Source & Anonymous File Sharing
 
 ************/
 
+# Setup size limit
+ini_set('upload_max_filesize', '10G');
+ini_set('post_max_size', '10G');
+
+# Init DB (MySQL)
+#-----------------
+# Table Blueprint:
+#-----------------
+# file_name | TEXT -> Default file name
+# file_path | TEXT -> Real file name in upload folder
+# file_url  | TEXT -> File custom URL
+# file_ext  | TEXT -> File extension
+# stat_dl   | INT  -> Number of downloads
+#-----------------
+
+$host = "localhost";
+$database = "zeroside";
+$username = "root";
+$password = "";
+
+$db = new PDO(
+	'mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8', 
+	$username, $password
+);
+
 # Require composer modules
 require(__DIR__ . '/vendor/autoload.php');
 
@@ -23,7 +48,9 @@ $router->map('GET', '/', function(){
 	$file = file_get_contents(__DIR__ . '/views/homepage.pug');
 
 	# Sending file
-	echo $pug->render($file);
+	echo $pug->render($file, array(
+		"id" => uniqid()
+	));
 });
 
 # Mapping download
@@ -33,17 +60,45 @@ $router->map('GET', '/[i:id]', function( $id ) {
 
 # [API] Mapping url checker
 $router->map('POST', '/api/check', function(){
-	if($_POST['id'] == 2){
-		echo json_encode(array(
+	# Response blueprint
+	#-------------------
+	# Type: JSON
+	# code => 200 (available) or 400 (taken)
+	# message => "url available" or "url taken"
+	#-------------------
+	
+	global $db;
+
+	if(empty($_POST['id'])){
+		die(json_encode(array(
 			"code" => 400,
-			"message" => "ID already taken"
-		));
+			"message" => "This URL is already taken"
+		)));
 	} else {
-		echo json_encode(array(
-			"code" => 200,
-			"message" => "ID available"
-		));
+		$request = $db->prepare("SELECT file_url FROM files WHERE file_url = (:user_type)");
+
+		$request->execute(
+			[
+				":user_type" => $_POST['id']
+			]
+		);
+
+		$result = $request->fetchAll(PDO::FETCH_OBJ);
+
+		if(!empty($result)){
+			die(json_encode(array(
+				"code" => 400,
+				"message" => "This URL is already taken"
+			)));
+		} else {
+			die(json_encode(array(
+				"code" => 200,
+				"message" => "This URL is available!"
+			)));
+		}
 	}
+
+	
 });
 
 # [API] Mapping file upload

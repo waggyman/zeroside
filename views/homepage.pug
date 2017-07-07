@@ -45,7 +45,7 @@ html
 							| ZeroSide offer theres features :
 							dl
 								li Your IP is not saved, there is no geolocation
-								li Unlimited file size to upload
+								li Upload up to 10GB per file!
 								li You can choose expiration time (30min to 7days)
 								li Customize your download URL
 								li Get stats on your uploads
@@ -65,6 +65,10 @@ html
 									<li>Jeremy Thomas for <a href='http://bulma.io'>Bulma</a></li>
 								</dl>
 				.column
+					div#notibox
+
+					br
+
 					.field
 						label.label Download URL
 						p.control
@@ -75,7 +79,7 @@ html
 
 						label.label Statistics URL
 						p.control
-							input.input#staturl(type='text', placeholder='Stat URL', readonly='readonly')
+							input.input#staturl(type='text', placeholder='Stat URL', value="https://www.zeroside.co/#{id}", readonly='readonly')
 
 					br
 					.has-text-centered

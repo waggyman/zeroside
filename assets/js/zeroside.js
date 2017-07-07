@@ -2,14 +2,20 @@
  * ZeroSide
  */
 
+// Getting elements
 var _submit = document.getElementById('submit'), 
     _file = document.getElementById('actual-upload'), 
     _progress = document.getElementById('progress');
 
-var uniqid = function () {
-    return (new Date().getTime() + Math.floor((Math.random() * 10000) + 1)).toString(16);
-};
+// Notification system
+var notify = function (msg, status) {
+    var start = '<div class="notification ' + status + '">';
+    var end = '</div>';
+    var result = start + msg + end;
+    document.getElementById('notibox').innerHTML = result;
+}
 
+// Checking for available URL
 var check = function (val) {
     var http = new XMLHttpRequest();
     var url = "/api/check";
@@ -36,6 +42,7 @@ var check = function (val) {
     http.send(params);
 };
 
+// Upload form
 var upload = function(){
 
     if(_file.files.length === 0){
@@ -48,36 +55,39 @@ var upload = function(){
     var request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         if(request.readyState == 4){
-            try {
-                var resp = JSON.parse(request.response);
-            } catch (e){
-                var resp = {
-                    status: 'error',
-                    data: 'Unknown error occurred: [' + request.responseText + ']'
-                };
+            if (request.readyState == 4 && request.status == 200) {
+
+                console.log(request.responseText);
+                var json = JSON.parse(request.responseText);
+
+                if (json.status == 'error') {
+                    notify("Upload failed, please retry", "is-danger");
+                } else {
+                    notify("Upload success", "is-success");
+                }
+
             }
-            console.log(resp.status + ': ' + resp.data);
         }
     };
 
     request.upload.addEventListener('progress', function(e){
-        _progress.value = Math.ceil(e.loaded/e.total) * 100;
+        var prog = Math.ceil(e.loaded/e.total) * 100;
+        console.log(prog)
+        _progress.value = prog;
     }, false);
 
     request.open('POST', '/api/upload');
     request.send(data);
 };
 
+
 document.addEventListener("DOMContentLoaded", function (event) {
 
+    // Upload button tweak
     document.getElementById('upload').addEventListener('click', function(){
         document.getElementById('actual-upload').click();
     });
 
-    var id = uniqid();
-
-    var stat = document.getElementById('staturl');
-    stat.value = "https://www.zeroside.co/stat/" + id;
-
+    // Send file
     _submit.addEventListener('click', upload);
 });
