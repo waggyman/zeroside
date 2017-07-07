@@ -36,6 +36,9 @@ $db = new PDO(
 # Require composer modules
 require(__DIR__ . '/vendor/autoload.php');
 
+# Require API modules
+require(__DIR__ . '/assets/php/api/URL.php');
+
 # Setup AltoRouter
 $router = new AltoRouter();
 
@@ -60,45 +63,8 @@ $router->map('GET', '/[i:id]', function( $id ) {
 
 # [API] Mapping url checker
 $router->map('POST', '/api/check', function(){
-	# Response blueprint
-	#-------------------
-	# Type: JSON
-	# code => 200 (available) or 400 (taken)
-	# message => "url available" or "url taken"
-	#-------------------
-	
-	global $db;
-
-	if(empty($_POST['id'])){
-		die(json_encode(array(
-			"code" => 400,
-			"message" => "This URL is already taken"
-		)));
-	} else {
-		$request = $db->prepare("SELECT file_url FROM files WHERE file_url = (:user_type)");
-
-		$request->execute(
-			[
-				":user_type" => $_POST['id']
-			]
-		);
-
-		$result = $request->fetchAll(PDO::FETCH_OBJ);
-
-		if(!empty($result)){
-			die(json_encode(array(
-				"code" => 400,
-				"message" => "This URL is already taken"
-			)));
-		} else {
-			die(json_encode(array(
-				"code" => 200,
-				"message" => "This URL is available!"
-			)));
-		}
-	}
-
-	
+	$URL = new com\zeroside\URL();
+	die($URL->check($_POST['id']));
 });
 
 # [API] Mapping file upload
