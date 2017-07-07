@@ -12,6 +12,9 @@ Open Source & Anonymous File Sharing
 ini_set('upload_max_filesize', '10G');
 ini_set('post_max_size', '10G');
 
+# Set locale UTF-8 US
+setlocale(LC_ALL,'en_US.UTF-8');
+
 # Init DB (MySQL)
 #-----------------
 # Table Blueprint:
@@ -20,6 +23,7 @@ ini_set('post_max_size', '10G');
 # file_path | TEXT -> Real file name in upload folder
 # file_url  | TEXT -> File custom URL
 # file_ext  | TEXT -> File extension
+# file_size | TEXT -> Human readable file size (with B/KB/MB/GB extension)
 # stat_dl   | INT  -> Number of downloads
 #-----------------
 
@@ -42,6 +46,16 @@ require(__DIR__ . '/assets/php/api/URL.php');
 # Setup AltoRouter
 $router = new AltoRouter();
 
+# Readable human size
+function human_filesize($bytes, $decimals = 2) {
+    $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
+    $factor = floor((strlen($bytes) - 1) / 3);
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
+}
+
+# Global user variables
+$id = uniqid();
+
 # Mapping homepage
 $router->map('GET', '/', function(){
 	# Setup Pug
@@ -51,8 +65,9 @@ $router->map('GET', '/', function(){
 	$file = file_get_contents(__DIR__ . '/views/homepage.pug');
 
 	# Sending file
+	global $id;
 	echo $pug->render($file, array(
-		"id" => uniqid()
+		"id" => $id
 	));
 });
 
@@ -63,18 +78,39 @@ $router->map('GET', '/[i:id]', function( $id ) {
 
 # [API] Mapping url checker
 $router->map('POST', '/api/check', function(){
-	$URL = new com\zeroside\URL();
-	die($URL->check($_POST['id']));
+	// Use URL class to check disponibility
+	$url = new com\zeroside\URL();
+	die($url->check($_POST['id']));
 });
 
 # [API] Mapping file upload
-$router->map('POST', '/api/upload', function(){
+$router->map('POST', '/api/upload/[:url]', function($furl){
 	function outputJSON($msg, $status = 'error'){
-    	header('Content-Type: application/json');
     	die(json_encode(array(
         	'data' => $msg,
         	'status' => $status
     	)));
+	}
+
+	// Making file informations
+	$name = $_FILES['SelectedFile']['name'];
+	$real = uniqid() . $_FILES['SelectedFile']['name'];
+	$size = human_filesize($_FILES['SelectedFile']['size']);
+	$extension = pathinfo($_FILES['SelectedFile']['name'], PATHINFO_EXTENSION);
+	$downloads = 0;
+
+	global $url;
+	if(empty($furl)){
+		$url = uniqid();
+	} else {
+		$Checker = new com\zeroside\URL();
+		$json = json_decode($Checker->check($furl));
+
+		if($json->code == 200){
+			$url = $furl;
+		} else {
+			$url = uniqid();
+		}
 	}
 
 	// Check for errors
@@ -83,17 +119,30 @@ $router->map('POST', '/api/upload', function(){
 	}
 
 	// Check if the file exists
-	if(file_exists('upload/' . $_FILES['SelectedFile']['name'])){
+	if(file_exists(__DIR__ . '/assets/uploads/' . $real)){
     	outputJSON('File with that name already exists.');
 	}
 
 	// Upload file
-	if(!move_uploaded_file($_FILES['SelectedFile']['tmp_name'], __DIR__ . '/assets/uploads/' . uniqid() . $_FILES['SelectedFile']['name'])){
+	if(!move_uploaded_file($_FILES['SelectedFile']['tmp_name'], __DIR__ . '/assets/uploads/' . $real)){
     	outputJSON('Error uploading file - check destination is writeable.');
 	}
 
+	global $db;
+	global $id;
+	$request = $db->prepare("INSERT INTO `files`(`file_name`, `file_path`, `file_url`, `file_ext`, `file_size`, `stat_dl`, `stat_id`) VALUES (:name, :file_path, :url, :ext, :size, :stat, :stat_id)");
+	$request->execute(array(
+		":name" => $name,
+		":file_path" => $real,
+		":url" => $url,
+		":ext" => $extension,
+		":size" => $size,
+		":stat" => $downloads,
+		":stat_id" => $id
+	));
+
 	// Success!
-	outputJSON('File uploaded successfully to "' . 'upload/' . $_FILES['SelectedFile']['name'] . '".', 'success');
+	outputJSON("File uploaded!<br><a href='https://www.zeroside.co/s/{$id}'>Check statistics</a><br><a href='https://www.zeroside.co/{$url}'>Download page</a>", 'success');
 });
 
 # Match current request url

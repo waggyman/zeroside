@@ -63,7 +63,7 @@ var upload = function(){
                 if (json.status == 'error') {
                     notify("Upload failed, please retry", "is-danger");
                 } else {
-                    notify("Upload success", "is-success");
+                    notify(json.data, "is-success");
                 }
 
             }
@@ -74,9 +74,11 @@ var upload = function(){
         var prog = Math.ceil(e.loaded/e.total) * 100;
         console.log(prog)
         _progress.value = prog;
-    }, false);
+    }, true);
 
-    request.open('POST', '/api/upload');
+    var downurl = document.getElementById('downurl').value;
+
+    request.open('POST', '/api/upload/' + downurl);
     request.send(data);
 };
 
