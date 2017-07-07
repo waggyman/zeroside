@@ -8,9 +8,11 @@ Open Source & Anonymous File Sharing
 
 ************/
 
-# Setup size limit
-ini_set('upload_max_filesize', '10G');
-ini_set('post_max_size', '10G');
+# Define units
+define('KB', 1024);
+define('MB', 1048576);
+define('GB', 1073741824);
+define('TB', 1099511627776);
 
 # Set locale UTF-8 US
 setlocale(LC_ALL,'en_US.UTF-8');
@@ -87,7 +89,7 @@ $router->map('POST', '/api/check', function(){
 });
 
 # [API] Mapping file upload
-$router->map('POST', '/api/upload/[:url]', function($furl){
+$router->map('POST', '/api/upload', function(){
 	function outputJSON($msg, $status = 'error'){
     	die(json_encode(array(
         	'data' => $msg,
@@ -102,7 +104,9 @@ $router->map('POST', '/api/upload/[:url]', function($furl){
 	$extension = pathinfo($_FILES['SelectedFile']['name'], PATHINFO_EXTENSION);
 	$downloads = 0;
 
+	// Download URL
 	global $url;
+	$furl = $_POST['downurl'];
 	if(empty($furl)){
 		$url = uniqid();
 	} else {
@@ -116,9 +120,36 @@ $router->map('POST', '/api/upload/[:url]', function($furl){
 		}
 	}
 
+	// Download Expiration
+	$exp = time() + 24 * 3600;
+	if(!empty($_POST['expiration'])){
+		switch($_POST['expiration']){
+			case 1:
+				$exp = time() + 3600;
+				break;
+			case 24:
+				$exp = time() + 24 * 3600;
+				break;
+			case 48:
+				$exp = time() + 48 * 3600;
+				break;
+			case 168:
+				$exp = time() + 168 * 3600;
+				break;
+			default:
+				$exp = time + 24 * 3600;
+				break;
+		}
+	}
+
 	// Check for errors
 	if($_FILES['SelectedFile']['error'] > 0){
     	outputJSON('An error ocurred when uploading.');
+	}
+
+	// Check for size
+	if($_FILES['SelectedFile']['size'] > 10*GB){
+		outputJSON('Too large file, 10GB max.');
 	}
 
 	// Check if the file exists
@@ -140,7 +171,7 @@ $router->map('POST', '/api/upload/[:url]', function($furl){
 		":url" => $url,
 		":ext" => $extension,
 		":size" => $size,
-		":file_time" => $time,
+		":file_time" => $exp,
 		":stat" => $downloads,
 		":stat_id" => $id
 	));

@@ -2,7 +2,7 @@ doctype html
 html
 	head
 		meta(charset='utf-8')
-		title ZeroSide: Anonymous File Sharing
+		title#title ZeroSide: Anonymous File Sharing
 
 		link(rel='apple-touch-icon', sizes='57x57', href='/assets/images/favicon/apple-icon-57x57.png')
 		link(rel='apple-touch-icon', sizes='60x60', href='/assets/images/favicon/apple-icon-60x60.png')
@@ -25,7 +25,7 @@ html
 		link(href='/assets/css/bulma.css', rel='stylesheet')
 
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
-	body(style='height: 100vh')
+	body(style='min-height: 100vh')
 		section.hero.is-medium.is-info
 			.hero-body
 				.container
@@ -87,6 +87,7 @@ html
 						p.control
 							span.select
 								select#expiration
+									option(selected, value="1") 1h
 									option(selected, value="24") 1 day (24h)
 									option(value='48') 2 days (48h)
 									option(value='168') 7 days (168h)

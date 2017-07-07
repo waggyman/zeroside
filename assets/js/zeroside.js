@@ -3,8 +3,8 @@
  */
 
 // Getting elements
-var _submit = document.getElementById('submit'), 
-    _file = document.getElementById('actual-upload'), 
+var _submit = document.getElementById('submit'),
+    _file = document.getElementById('actual-upload'),
     _progress = document.getElementById('progress');
 
 // Notification system
@@ -42,19 +42,46 @@ var check = function (val) {
     http.send(params);
 };
 
-// Upload form
-var upload = function(){
+// Update progress
+function updateProgress(evt) {
+    if (evt.lengthComputable) { // evt.loaded the bytes the browser received
+        // evt.total the total bytes set by the header
+        // jQuery UI progress bar to show the progress on screen
+        var percentComplete = ((evt.loaded / evt.total) * 100).toFixed(0);
+        document.getElementById("title").innerHTML = 'Upload -> ' + percentComplete + "%";
+        document.getElementById('progress').value = percentComplete;
 
-    if(_file.files.length === 0){
+        if(percentComplete >= 100){
+            document.getElementById("title").innerHTML = 'ZeroSide: Anonymous File Sharing';
+        }
+    } else {
+        console.log('Error progress bar');
+    }
+
+}
+
+// Upload form
+var upload = function () {
+
+    if (_file.files.length === 0) {
         return;
     }
 
     var data = new FormData();
     data.append('SelectedFile', _file.files[0]);
 
+    var downurl = document.getElementById('downurl').value;
+    
+    var e = document.getElementById("expiration");
+
+    data.append('downurl', downurl);
+    data.append('expiration', e.options[e.selectedIndex].value)
+
     var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if(request.readyState == 4){
+    request.upload.onprogress = updateProgress;
+
+    request.onreadystatechange = function () {
+        if (request.readyState == 4) {
             if (request.readyState == 4 && request.status == 200) {
 
                 console.log(request.responseText);
@@ -70,15 +97,7 @@ var upload = function(){
         }
     };
 
-    request.upload.addEventListener('progress', function(e){
-        var prog = Math.ceil(e.loaded/e.total) * 100;
-        console.log(prog)
-        _progress.value = prog;
-    }, true);
-
-    var downurl = document.getElementById('downurl').value;
-
-    request.open('POST', '/api/upload/' + downurl);
+    request.open('POST', '/api/upload');
     request.send(data);
 };
 
@@ -86,7 +105,7 @@ var upload = function(){
 document.addEventListener("DOMContentLoaded", function (event) {
 
     // Upload button tweak
-    document.getElementById('upload').addEventListener('click', function(){
+    document.getElementById('upload').addEventListener('click', function () {
         document.getElementById('actual-upload').click();
     });
 
