@@ -98,8 +98,8 @@ $router->map('GET', '/[a:id]', function($id)
 # [GET] Mapping analytics
 $router->map('GET', '/s/[a:id]', function($id)
 {
-	$stats = new com\zeroside\Analytics;
-	$stats->show($id);
+    $stats = new com\zeroside\Analytics;
+    $stats->show($id);
 });
 
 # [API] Mapping download base64

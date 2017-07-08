@@ -4,19 +4,18 @@
 
 // Getting elements
 var _submit = document.getElementById('submit'),
-    _file = document.getElementById('actual-upload'),
-    _progress = document.getElementById('progress');
+    _file = document.getElementById('actual-upload');
 
 // Notification system
-var notify = function (msg, status) {
+var notify = function(msg, status) {
     var start = '<div class="notification ' + status + '">';
     var end = '</div>';
     var result = start + msg + end;
     document.getElementById('notibox').innerHTML = result;
-}
+};
 
 // Checking for available URL
-var check = function (val) {
+var check = function(val) {
     var http = new XMLHttpRequest();
     var url = "/api/check";
     var params = "id=" + val;
@@ -25,7 +24,7 @@ var check = function (val) {
     //Send the proper header information along with the request
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-    http.onreadystatechange = function () { //Call a function when the state changes.
+    http.onreadystatechange = function() { //Call a function when the state changes.
         if (http.readyState == 4 && http.status == 200) {
 
             var message = document.getElementById("message");
@@ -38,7 +37,7 @@ var check = function (val) {
             }
 
         }
-    }
+    };
     http.send(params);
 };
 
@@ -51,7 +50,7 @@ function updateProgress(evt) {
         document.getElementById("title").innerHTML = 'Upload -> ' + percentComplete + "%";
         document.getElementById('progress').value = percentComplete;
 
-        if(percentComplete >= 100){
+        if (percentComplete >= 100) {
             document.getElementById("title").innerHTML = 'ZeroSide: Anonymous File Sharing';
         }
     } else {
@@ -61,7 +60,7 @@ function updateProgress(evt) {
 }
 
 // Upload form
-var upload = function () {
+var upload = function() {
 
     if (_file.files.length === 0) {
         return;
@@ -71,16 +70,16 @@ var upload = function () {
     data.append('SelectedFile', _file.files[0]);
 
     var downurl = document.getElementById('downurl').value;
-    
+
     var e = document.getElementById("expiration");
 
     data.append('downurl', downurl);
-    data.append('expiration', e.options[e.selectedIndex].value)
+    data.append('expiration', e.options[e.selectedIndex].value);
 
     var request = new XMLHttpRequest();
     request.upload.onprogress = updateProgress;
 
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.readyState == 4 && request.status == 200) {
 
@@ -102,10 +101,10 @@ var upload = function () {
 };
 
 
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener("DOMContentLoaded", function(event) {
 
     // Upload button tweak
-    document.getElementById('upload').addEventListener('click', function () {
+    document.getElementById('upload').addEventListener('click', function() {
         document.getElementById('actual-upload').click();
     });
 
