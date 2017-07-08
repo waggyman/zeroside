@@ -84,13 +84,13 @@ var upload = function () {
         if (request.readyState == 4) {
             if (request.readyState == 4 && request.status == 200) {
 
-                console.log(request.responseText);
                 var json = JSON.parse(request.responseText);
 
                 if (json.status == 'error') {
                     notify("Upload failed, please retry", "is-danger");
                 } else {
                     notify(json.data, "is-success");
+                    document.getElementById('staturl').value = "https://www.zeroside.co/s/" + json.stat;
                 }
 
             }

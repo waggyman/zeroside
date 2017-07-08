@@ -16,10 +16,11 @@ class Upload {
 
         global $db, $id;
 
-        function outputJSON($msg, $status = 'error'){
+        function outputJSON($msg, $status = 'error', $stat = null){
         	die(json_encode(array(
             	'data' => $msg,
-            	'status' => $status
+            	'status' => $status,
+				'stat' => $stat
         	)));
 	    }
 
@@ -109,7 +110,7 @@ class Upload {
         }
 
 	    // Success!
-	    outputJSON("File uploaded!<br><a href='https://www.zeroside.co/s/{$id}'>Check statistics</a><br><a href='https://www.zeroside.co/{$url}'>Download page</a>", 'success');
+	    outputJSON("File uploaded!<br><a href='https://www.zeroside.co/s/{$id}'>Check statistics</a><br><a href='https://www.zeroside.co/{$url}'>Download page</a>", 'success', $id);
         
     }
 

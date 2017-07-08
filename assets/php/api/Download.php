@@ -24,6 +24,7 @@ class Download {
 
 	    if(empty($result)){
 	    	header('Location: /?r=404');
+            exit();
 	    } else {
 	    	# Testing expiration
 	    	if(time() > $result['file_time']){
@@ -73,6 +74,7 @@ class Download {
 
         if(empty($id)){
             header('Location: /?r=500');
+            exit();
         } else {
 
             global $db;
