@@ -23,7 +23,7 @@ html
 		meta(name='theme-color', content='#44a6ca')
 
 		link(href='/assets/css/bulma.css', rel='stylesheet')
-		link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet')
+        link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet')
 
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
 	body(style='min-height: 100vh')
@@ -37,6 +37,11 @@ html
 
 		br
 		div.container
+
+            center
+				script(src="http://www.pubovore.com/12837-728x90.js")
+				br
+
 			.columns
 				.column.is-one-third
 					article.message.is-info
@@ -52,6 +57,9 @@ html
 								li Get stats on your uploads
 								li Full API for apps
 
+                    a(href='/').button.is-warning.is-large.is-fullwidth Discover ZeroSide
+					br
+
 					article.message.is-primary
 						.message-header
 							p Informations
@@ -64,46 +72,16 @@ html
 								<dl>
 									<li>Our Telegram Group for testing</li>
 								</dl>
-				.column
-					div#notibox
+				.column.has-text-centered
 
-					br
+                    h2.title.is-2 #{file_name}
+                    hr
+                    h4.title Sorry, this download is expired.
 
-					.field
-						label.label Download URL
-						p.control
-							input.input(type='text', placeholder='Name your download URL', onkeyup="check(this.value)")#downurl
-						p.help#message
-
-						br
-
-						label.label Statistics URL
-						p.control
-							input.input#staturl(type='text', placeholder='Stat URL', value="https://www.zeroside.co/#{id}", readonly='readonly')
-
-						br
-
-						label.label Expiration
-						p.control
-							span.select
-								select#expiration
-									option(value="0.01") 1min
-									option(value="1") 1h
-									option(selected, value="24") 1 day (24h)
-									option(value='48') 2 days (48h)
-									option(value='168') 7 days (168h)
-					br
-					.has-text-centered
-						input(type='file', style="display: none")#actual-upload
-						button.button.is-large#upload Choose a file to upload
-						br
-						br
-						button.button.is-success#submit Upload file!
-					br
-					progress(class="progress is-info", value="0", max="100")#progress
-		script(src='/assets/js/zeroside.js')
-		br
-		footer.footer
+            center
+				script(src="http://www.pubovore.com/12837-728x90.js")
+                br
+        footer.footer
 			.container
 				.content.has-text-centered
 					p

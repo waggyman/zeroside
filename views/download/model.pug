@@ -37,6 +37,11 @@ html
 
 		br
 		div.container
+
+			center
+				//script(src="http://www.pubovore.com/12837-728x90.js")
+				br
+
 			.columns
 				.column.is-one-third
 					article.message.is-info
@@ -52,6 +57,9 @@ html
 								li Get stats on your uploads
 								li Full API for apps
 
+					a(href='/').button.is-warning.is-large.is-fullwidth Discover ZeroSide
+					br
+
 					article.message.is-primary
 						.message-header
 							p Informations
@@ -64,45 +72,19 @@ html
 								<dl>
 									<li>Our Telegram Group for testing</li>
 								</dl>
-				.column
-					div#notibox
+				.column.has-text-centered
 
+					h2.title.is-2 #{file_name}
+					hr
+					h4.title Size: #{file_size}
 					br
+					form(action='/api/download', method='post')
+						input(type='hidden', name='download_uid', value=temp_url)
+						button.button.is-danger(type='submit') Download now
 
-					.field
-						label.label Download URL
-						p.control
-							input.input(type='text', placeholder='Name your download URL', onkeyup="check(this.value)")#downurl
-						p.help#message
+			center
+				//script(src="http://www.pubovore.com/12837-728x90.js").has-text-centered
 
-						br
-
-						label.label Statistics URL
-						p.control
-							input.input#staturl(type='text', placeholder='Stat URL', value="https://www.zeroside.co/#{id}", readonly='readonly')
-
-						br
-
-						label.label Expiration
-						p.control
-							span.select
-								select#expiration
-									option(value="0.01") 1min
-									option(value="1") 1h
-									option(selected, value="24") 1 day (24h)
-									option(value='48') 2 days (48h)
-									option(value='168') 7 days (168h)
-					br
-					.has-text-centered
-						input(type='file', style="display: none")#actual-upload
-						button.button.is-large#upload Choose a file to upload
-						br
-						br
-						button.button.is-success#submit Upload file!
-					br
-					progress(class="progress is-info", value="0", max="100")#progress
-		script(src='/assets/js/zeroside.js')
-		br
 		footer.footer
 			.container
 				.content.has-text-centered
@@ -116,4 +98,3 @@ html
 					p
 						a.icon(href='https://github.com/ZeroSide-Project/zeroside')
 							i.fa.fa-github
-						
