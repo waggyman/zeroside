@@ -39,69 +39,13 @@ html
 		div.container
 			.columns
 				.column.is-one-third
-					article.message.is-info
-						.message-header
-							p Features
-						.message-body
-							| ZeroSide offer theres features :
-							dl
-								li Your IP is not saved, there is no geolocation
-								li Upload up to 10GB per file!
-								li You can choose expiration time (1min to 7days)
-								li Customize your download URL
-								li Get stats on your uploads
-								li Full API for apps
-
-					article.message.is-primary
-						.message-header
-							p Informations
-						.message-body
-							p.
-								ZeroSide is also open source on GitHub!
-								This one is developped in PHP :)
-								<br><br>
-								Big thanks to:
-								<dl>
-									<li>Our Telegram Group for testing</li>
-								</dl>
+					include compositions/informations.pug
 				.column
 					div#notibox
 
 					br
 
-					.field
-						label.label Download URL
-						p.control
-							input.input(type='text', placeholder='Name your download URL', onkeyup="check(this.value)")#downurl
-						p.help#message
-
-						br
-
-						label.label Statistics URL
-						p.control
-							input.input#staturl(type='text', placeholder='Will generate after upload (this input is readonly)', value="", readonly='readonly')
-
-						br
-
-						label.label Expiration
-						p.control
-							span.select
-								select#expiration
-									option(value="0.01") 1 minute
-									option(value="0.30") 30 minutes
-									option(value="1") 1 hours
-									option(selected, value="24") 1 day (24h)
-									option(value='48') 2 days (48h)
-									option(value='168') 7 days (168h)
-					br
-					.has-text-centered
-						input(type='file', style="display: none")#actual-upload
-						button.button.is-large#upload Choose a file to upload
-						br
-						br
-						button.button.is-success#submit Upload file!
-					br
-					progress(class="progress is-info", value="0", max="100")#progress
+					include compositions/form.pug
 		script(src='/assets/js/zeroside.js')
 		br
 		footer.footer

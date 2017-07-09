@@ -15,7 +15,8 @@ class Download
     
     public function show($id)
     {
-        global $db;
+        # Defining global variables
+        global $db, $pug;
         $request = $db->prepare('SELECT * FROM files WHERE file_url=:id');
         
         $request->execute(array(
@@ -30,14 +31,8 @@ class Download
         } else {
             # Testing expiration
             if (time() > $result['file_time']) {
-                # Setup Pug
-                $pug = new \Pug\Pug();
-                
-                # Get file
-                $file = file_get_contents(__DIR__ . '/../../../views/download.expired.pug');
-                
                 # Sending page
-                echo $pug->render($file, array(
+                echo $pug->render(R . "/views/download.expired.pug", array(
                     "file_name" => $result[0]
                 ));
                 
@@ -49,15 +44,9 @@ class Download
                 
                 # Remove in folder now
                 unlink(__DIR__ . '/../../uploads/' . $result['file_path']);
-            } else {
-                # Setup Pug
-                $pug = new \Pug\Pug();
-                
-                # Get file
-                $file = file_get_contents(__DIR__ . '/../../../views/download.model.pug');
-                
+            } else {    
                 # Sending page
-                echo $pug->render($file, array(
+                echo $pug->render(R . "/views/download.model.pug", array(
                     "file_name" => $result[0],
                     "file_size" => $result[4],
                     "temp_url" => base64_encode($id)
@@ -80,6 +69,7 @@ class Download
             exit();
         } else {
             
+            # Defining global variables
             global $db;
             
             $request = $db->prepare('SELECT * FROM files WHERE file_url=:id');

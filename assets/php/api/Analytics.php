@@ -15,13 +15,15 @@ class Analytics
     
     public function show($id)
     {
+
+        # Defining global variables
+        global $db, $pug;
         
         if (empty($id)) {
             header('Location: /?r=404');
             exit();
         }
         
-        global $db;
         $request = $db->prepare('SELECT * FROM files WHERE stat_id=:id');
         
         $request->execute(array(
@@ -34,12 +36,6 @@ class Analytics
             header('Location: /?r=404');
             exit();
         }
-        
-        # Setup Pug
-        $pug = new \Pug\Pug();
-        
-        # Get file
-        $file = file_get_contents(__DIR__ . '/../../../views/analytics.model.pug');
         
         # Calculate ratio (#fix for division by zero)
         if (empty($result["views"]))
@@ -59,7 +55,7 @@ class Analytics
         );
         
         # Sending page
-        echo $pug->render($file, $data);
+        echo $pug->render(R . "/views/analytics.model.pug", $data);
     }
     
 }

@@ -1,0 +1,33 @@
+.field
+	label.label Download URL
+	p.control
+		input.input(type='text', placeholder='Name your download URL', onkeyup="check(this.value)")#downurl
+	p.help#message
+
+	br
+
+	label.label Statistics URL
+	p.control
+		input.input#staturl(type='text', placeholder='Will generate after upload (this input is readonly)', value="", readonly='readonly')
+
+	br
+
+	label.label Expiration
+	p.control
+		span.select
+			select#expiration
+				option(value="0.01") 1 minute
+				option(value="0.30") 30 minutes
+				option(value="1") 1 hours
+				option(selected, value="24") 1 day (24h)
+				option(value='48') 2 days (48h)
+				option(value='168') 7 days (168h)
+br
+.has-text-centered
+	input(type='file', style="display: none")#actual-upload
+	button.button.is-large#upload Choose a file to upload
+	br
+	br
+	button.button.is-success#submit Upload file!
+br
+progress(class="progress is-info", value="0", max="100")#progress

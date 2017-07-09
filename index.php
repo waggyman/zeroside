@@ -23,6 +23,12 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 # Getting configuration
 $config = parse_ini_file(R . '/config.ini');
 
+# Enable debug mode
+if ($config['debug'])
+{
+    error_reporting(E_ALL);
+}
+
 # Init DB (MySQL)
 #-----------------
 # Table Blueprint:
@@ -51,6 +57,12 @@ require(__DIR__ . '/assets/php/api/Analytics.php');
 # Setup AltoRouter
 $router = new AltoRouter();
 
+# Setup Pug (#fix for better memory and views management)
+$pug = new \Pug\Pug(array(
+    'cache' => R . '/assets/cache',
+    'basedir' => R . '/views'
+));
+
 # Readable human size
 function human_filesize($bytes, $decimals = 2)
 {
@@ -74,17 +86,13 @@ $id = uniqid();
 
 # [GET] Mapping homepage
 $router->map('GET', '/', function()
-{
-    # Setup Pug
-    $pug = new Pug\Pug();
-    
-    # Get file
-    $file = file_get_contents(__DIR__ . '/views/homepage.pug');
-    
-    # Sending file
+{   
+    # Getting global variables
+    global $pug;
     global $id;
     
-    echo $pug->render($file, array(
+    # Sending file
+    echo $pug->render(R . "/views/homepage.pug", array(
         "id" => $id
     ));
 });
