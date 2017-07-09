@@ -17,13 +17,46 @@ class Analytics
     {
 
         # Defining global variables
-        global $db, $pug;
+        global $pug;
         
-        if (empty($id)) {
-            header('Location: /?r=404');
-            exit();
+        $result = json_decode($this->api($id));
+
+        switch($result->code){
+            case 403:
+                header('Location: /?r=403');
+                exit();
+                break;
+            case 404:
+                header('Location: /?r=404');
+                exit();
+                break;
+            case 200:
+                # Set data
+                $data = array(
+                    "name" => $result->name,
+                    "downloads" => $result->downloads,
+                    "views" => $result->views,
+                    "url" => $result->url,
+                    "ratio" => $result->ratio
+                );
+        
+                # Sending page
+                echo $pug->render(R . "/views/analytics.model.pug", $data);
         }
-        
+    }
+
+    public function api($id)
+    {
+
+        global $db;
+
+        if (empty($id)){
+            return json_encode(array(
+                "code" => 403,
+                "message" => "No stat id in request"
+            ));
+        }
+
         $request = $db->prepare('SELECT * FROM files WHERE stat_id=:id');
         
         $request->execute(array(
@@ -33,10 +66,12 @@ class Analytics
         $result = $request->fetch();
         
         if (empty($result)) {
-            header('Location: /?r=404');
-            exit();
+            return json_encode(array(
+                "code" => 404,
+                "message" => "No analytics for this id"
+            ));
         }
-        
+
         # Calculate ratio (#fix for division by zero)
         if (empty($result["views"]))
         {
@@ -45,17 +80,15 @@ class Analytics
             $ratio = round((($result['stat_dl'] / $result['views']) * 100), 2);
         }
 
-        # Set data
-        $data = array(
-            "name" => $result["file_name"],
-            "downloads" => $result["stat_dl"],
-            "views" => $result["views"],
-            "url" => $result["file_url"],
-            "ratio" => $ratio
-        );
-        
-        # Sending page
-        echo $pug->render(R . "/views/analytics.model.pug", $data);
+        return json_encode(array(
+            "code" => 200,
+            "message" => "success",
+            "downloads" => $result['stat_dl'],
+            "views" => $result['views'],
+            "ratio" => $ratio,
+            "url" => $result['file_url'],
+            "name" => $result["file_name"]
+        ));
     }
     
 }

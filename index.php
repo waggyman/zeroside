@@ -111,6 +111,12 @@ $router->map('GET', '/s/[a:id]', function($id)
     $stats->show($id);
 });
 
+# [API] Mapping analytics JSON
+$router->map('GET', '/api/stat/[a:id]', function($id){
+    $stats = new com\zeroside\Analytics;
+    die($stats->api($id));
+});
+
 # [API] Mapping download base64
 $router->map('POST', '/api/download', function()
 {
