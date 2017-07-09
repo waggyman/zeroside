@@ -26,6 +26,7 @@
 
 1. Blank page after clone/download repo
     - This is often due to database, go put your database login in the begin of `index.php`
+    - To setup fastly the database, use MySQL and import the `setup.sql` at root of the repository
 
 2. Unblock the 2M or 8M limit
     - Modify your `php.ini` and find :
