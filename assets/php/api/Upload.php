@@ -15,8 +15,8 @@ class Upload
     
     public function upload()
     {
-        
-        global $db, $id;
+        # Defining global variables
+        global $db, $id, $config;
         
         function outputJSON($msg, $status = 'error', $stat = null)
         {
@@ -83,7 +83,7 @@ class Upload
         }
         
         // Check for size
-        if ($_FILES['SelectedFile']['size'] > 10 * GB) {
+        if ($_FILES['SelectedFile']['size'] > $config['upload_max_size'] * GB) {
             outputJSON('Too large file, 10GB max.');
         }
         

@@ -93,7 +93,7 @@ class Download
             session_start();
             
             if (!is_file($filename) || !is_readable($filename)) {
-                header("HTTP/1.1 404 Not Found");
+                header('Location: /r=404d');
                 exit;
             }
             $size = filesize($filename);

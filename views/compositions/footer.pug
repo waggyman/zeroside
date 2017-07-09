@@ -1,14 +1,29 @@
 br
 footer.footer
-    .container
-    	.content.has-text-centered
-    		p
-    			strong ZeroSide
-    			|  by 
-    			a(href='https://github.com/l-x-0x7') LXT
-    			br
-    			| The source code is licensed 
-    			a(href='http://opensource.org/licenses/mit-license.php') MIT
-    		p
-    			a.icon(href='https://github.com/ZeroSide-Project/zeroside')
-    				i.fa.fa-github
+	.container
+		.content.has-text-centered
+			p
+				strong ZeroSide
+				|  by 
+				a(href='https://github.com/l-x-0x7') LXT
+				br
+				| The source code is licensed 
+				a(href='http://opensource.org/licenses/mit-license.php') MIT
+			p
+				a.icon(href='https://github.com/ZeroSide-Project/zeroside')
+					i.fa.fa-github
+
+				| &nbsp;
+
+				a.icon(href='https://github.com/ZeroSide-Project/zeroside/wiki/API-Documentation')
+					i.fa.fa-book
+			p
+				form(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
+					input(type='hidden', name='cmd', value='_s-xclick')
+					input(type='hidden', name='hosted_button_id', value='TC9X8HBW5ETBU')
+					input(type='image', src='https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_donateCC_LG.gif', border='0', name='submit', alt='PayPal, le réflexe sécurité pour payer en ligne')
+					img(alt='', border='0', src='https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif', width='1', height='1')
+				
+				br
+
+				a(href='bitcoin:173yvc32M4bETCZxP8z6AGs1Zq9C6rB3CP') Donate in Bitcoin

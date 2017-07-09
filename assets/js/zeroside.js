@@ -6,6 +6,17 @@
 var _submit = document.getElementById('submit'),
     _file = document.getElementById('actual-upload');
 
+// Query extractor
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 // Notification system
 var notify = function(msg, status) {
     var start = '<div class="notification ' + status + '">';
@@ -111,4 +122,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Send file
     _submit.addEventListener('click', upload);
+
+    // Check redirections
+    if(getParameterByName("r") == 404){
+        notify("This page does not exists or expired.", "is-danger");
+    } else if (getParameterByName("r") == "404d"){
+        notify("This download is invalid. <br>Please retry later", "is-warning");
+    } else if (getParameterByName("r") == 500){
+        notify("Server error<br>Please retry later or contact administrator (via GitHub issues)", "is-danger");
+    }
 });
