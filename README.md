@@ -11,7 +11,7 @@
 > This project is runned by :
 - Bulma.io, this is the CSS framework that we use
 - AltoRouter, this is a free URL router that we use to simplify the code
-- Pug (formelly Jade), a easier HTML
+- Pug (formerly Jade), a easier HTML
 
 ## Contributors
 
