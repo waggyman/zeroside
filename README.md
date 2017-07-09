@@ -1,7 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/ZeroSide-Project/zeroside/master/assets/images/favicon/android-icon-192x192.png" alt="icon"/>
-    <h1 align="center">ZeroSide</h1>
-    <h3 align="center">Anonymous File-Sharing</h3>
+    <img src="https://s12.postimg.org/kq7qfeuzh/68747470733a2f2f696d6167652e6962622e636f2f686171.jpg" alt="icon"/>
 </p>
 
 ## How it works ?
@@ -13,7 +11,7 @@
 > This project is runned by :
 - Bulma.io, this is the CSS framework that we use
 - AltoRouter, this is a free URL router that we use to simplify the code
-- Pug (formelly Jade), a easier HTML
+- Pug (formerly Jade), a easier HTML
 
 ## Contributors
 
