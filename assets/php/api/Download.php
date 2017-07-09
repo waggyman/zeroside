@@ -34,7 +34,7 @@ class Download
                 $pug = new \Pug\Pug();
                 
                 # Get file
-                $file = file_get_contents(__DIR__ . '/../../../views/download/expired.pug');
+                $file = file_get_contents(__DIR__ . '/../../../views/download.expired.pug');
                 
                 # Sending page
                 echo $pug->render($file, array(
@@ -54,7 +54,7 @@ class Download
                 $pug = new \Pug\Pug();
                 
                 # Get file
-                $file = file_get_contents(__DIR__ . '/../../../views/download/model.pug');
+                $file = file_get_contents(__DIR__ . '/../../../views/download.model.pug');
                 
                 # Sending page
                 echo $pug->render($file, array(

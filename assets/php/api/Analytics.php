@@ -39,15 +39,23 @@ class Analytics
         $pug = new \Pug\Pug();
         
         # Get file
-        $file = file_get_contents(__DIR__ . '/../../../views/analytics/model.pug');
+        $file = file_get_contents(__DIR__ . '/../../../views/analytics.model.pug');
         
+        # Calculate ratio (#fix for division by zero)
+        if (empty($result["views"]))
+        {
+            $ratio = 0;
+        } else {
+            $ratio = round((($result['stat_dl'] / $result['views']) * 100), 2);
+        }
+
         # Set data
         $data = array(
             "name" => $result["file_name"],
             "downloads" => $result["stat_dl"],
             "views" => $result["views"],
             "url" => $result["file_url"],
-            "ratio" => round((($result['stat_dl'] / $result['views']) * 100), 2)
+            "ratio" => $ratio
         );
         
         # Sending page

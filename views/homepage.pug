@@ -27,7 +27,7 @@ html
 
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
 	body(style='min-height: 100vh')
-		section.hero.is-medium.is-info
+		section.hero.is-medium.is-primary.is-bold
 			.hero-body
 				.container
 					h1.title.is-1
@@ -47,7 +47,7 @@ html
 							dl
 								li Your IP is not saved, there is no geolocation
 								li Upload up to 10GB per file!
-								li You can choose expiration time (30min to 7days)
+								li You can choose expiration time (1min to 7days)
 								li Customize your download URL
 								li Get stats on your uploads
 								li Full API for apps
@@ -87,8 +87,9 @@ html
 						p.control
 							span.select
 								select#expiration
-									option(value="0.01") 1min
-									option(value="1") 1h
+									option(value="0.01") 1 minute
+									option(value="0.30") 30 minutes
+									option(value="1") 1 hours
 									option(selected, value="24") 1 day (24h)
 									option(value='48') 2 days (48h)
 									option(value='168') 7 days (168h)

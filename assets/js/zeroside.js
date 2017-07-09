@@ -84,6 +84,7 @@ var upload = function() {
             if (request.readyState == 4 && request.status == 200) {
 
                 var json = JSON.parse(request.responseText);
+                console.log(json);
 
                 if (json.status == 'error') {
                     notify("Upload failed, please retry", "is-danger");

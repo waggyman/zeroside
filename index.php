@@ -14,8 +14,14 @@ define('MB', 1048576);
 define('GB', 1073741824);
 define('TB', 1099511627776);
 
+# Define path
+define('R', __DIR__);
+
 # Set locale UTF-8 US
 setlocale(LC_ALL, 'en_US.UTF-8');
+
+# Getting configuration
+$config = parse_ini_file(R . '/config.ini');
 
 # Init DB (MySQL)
 #-----------------
@@ -31,12 +37,7 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 # stat_id   | INT  -> Identifier to access stats page
 #-----------------
 
-$host     = "localhost";
-$database = "zeroside";
-$username = "root";
-$password = "";
-
-$db = new \PDO('mysql:host=' . $host . ';dbname=' . $database . ';charset=utf8', $username, $password);
+$db = new \PDO('mysql:host=' . $config['host'] . ';dbname=' . $config['database'] . ';charset=utf8', $config['username'], $config['password']);
 
 # Require composer modules
 require(__DIR__ . '/vendor/autoload.php');

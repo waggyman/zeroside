@@ -56,6 +56,9 @@ class Upload
                 case 0.01:
                     $exp = time() + 60;
                     break;
+                case 0.3:
+                    $exp = time() + 1800;
+                    break;
                 case 1:
                     $exp = time() + 3600;
                     break;
