@@ -26,7 +26,10 @@ $config = parse_ini_file(R . '/config.ini');
 # Enable debug mode
 if ($config['debug'])
 {
-    error_reporting(E_ALL);
+    // Show all errors
+    ini_set('display_startup_errors', 1);
+    ini_set('display_errors', 1);
+    error_reporting(-1);
 }
 
 # Init DB (MySQL)
@@ -43,8 +46,14 @@ if ($config['debug'])
 # stat_id   | INT  -> Identifier to access stats page
 #-----------------
 
-$db = new \PDO('mysql:host=' . $config['host'] . ';dbname=' . $config['database'] . ';charset=utf8', $config['username'], $config['password']);
-
+try {
+    $db = new \PDO('mysql:host=' . $config['host'] . ';dbname=' . $config['database'] . ';charset=utf8', $config['username'], $config['password']);
+} catch (Exception $e) {
+    if ($config['debug']) {
+        die('Erreur : ' . $e->getMessage());
+    }
+}
+    
 # Require composer modules
 require(__DIR__ . '/vendor/autoload.php');
 
