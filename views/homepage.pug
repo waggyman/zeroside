@@ -1,50 +1,62 @@
 doctype html
 html
-	head
-		meta(charset='utf-8')
-		title#title ZeroSide: Anonymous File Sharing
-
-		link(rel='apple-touch-icon', sizes='57x57', href='/assets/images/favicon/apple-icon-57x57.png')
-		link(rel='apple-touch-icon', sizes='60x60', href='/assets/images/favicon/apple-icon-60x60.png')
-		link(rel='apple-touch-icon', sizes='72x72', href='/assets/images/favicon/apple-icon-72x72.png')
-		link(rel='apple-touch-icon', sizes='76x76', href='/assets/images/favicon/apple-icon-76x76.png')
-		link(rel='apple-touch-icon', sizes='114x114', href='/assets/images/favicon/apple-icon-114x114.png')
-		link(rel='apple-touch-icon', sizes='120x120', href='/assets/images/favicon/apple-icon-120x120.png')
-		link(rel='apple-touch-icon', sizes='144x144', href='/assets/images/favicon/apple-icon-144x144.png')
-		link(rel='apple-touch-icon', sizes='152x152', href='/assets/images/favicon/apple-icon-152x152.png')
-		link(rel='apple-touch-icon', sizes='180x180', href='/assets/images/favicon/apple-icon-180x180.png')
-		link(rel='icon', type='image/png', sizes='192x192', href='/assets/images/favicon/android-icon-192x192.png')
-		link(rel='icon', type='image/png', sizes='32x32', href='/assets/images/favicon/favicon-32x32.png')
-		link(rel='icon', type='image/png', sizes='96x96', href='/assets/images/favicon/favicon-96x96.png')
-		link(rel='icon', type='image/png', sizes='16x16', href='/assets/images/favicon/favicon-16x16.png')
-		link(rel='manifest', href='/assets/images/favicon/manifest.json')
-		meta(name='msapplication-TileColor', content='#44a6ca')
-		meta(name='msapplication-TileImage', content='/assets/images/favicon/ms-icon-144x144.png')
-		meta(name='theme-color', content='#44a6ca')
-
-		link(href='/assets/css/bulma.css', rel='stylesheet')
-		link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet')
-
-		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+	include compositions/header.pug
 	body(style='min-height: 100vh')
-		section.hero.is-medium.is-primary.is-bold
-			.hero-body
-				.container
-					h1.title.is-1
-						| ZeroSide
-					h2.subtitle
-						| Open Source &amp; Anonymous File Sharing
+		section.header
+			img(src='/assets/images/favicon/favicon-96x96.png')
+			h1 ZeroSide
+		
+		.push
+			.grid
+				.unit.one-third.center
+					img.icon(src='/assets/images/icons/cloud.svg')
+					p.paragraph.big Cloud
+					p.paragraph Upload up to 10GB per file
+				.unit.one-third.center
+					img.icon(src='/assets/images/icons/vm.svg')
+					p.paragraph.big Privacy
+					p.paragraph We don't save IP and location
+				.unit.one-third.center
+					img.icon(src='/assets/images/icons/lock.svg')
+					p.paragraph.big Secure
+					p.paragraph By community for community
+		
+		section.form
+			.push
+				div#notibox
+				br
 
-		br
-		div.container
-			.columns
-				.column.is-one-third
-					include compositions/informations.pug
-				.column
-					div#notibox
+				.grid
+					.unit.one-third.center
+						p.paragraph.small Download URI
+						input(placeholder='e.g.: https://www.zeroside.co/mydownloadurl', onkeyup="check(this.value)")#downurl
+						p.help#message
+					
+					.unit.one-third.center
+						p.paragraph.small Expiration
+						select#expiration
+							option(value="0.01") 1 minute
+							option(value="0.30") 30 minutes
+							option(value="1") 1 hours
+							option(selected, value="24") 1 day (24h)
+							option(value='48') 2 days (48h)
+							option(value='168') 7 days (168h)
+					
+					.unit.one-third.center
+						p.paragraph.small Select file
+						input(type='file', style="display: none")#actual-upload
+						button#upload Choose a file to Upload
+				
+				br
+				.center
+					button.s#submit Submit !
+		
+		.push
+			.center
+				p.paragraph
+					a(href='https://github.com/ZeroSide-Project/') ZeroSide
+					|  by 
+					a(href='https://github.com/l-x-0x7') LX
 
-					br
-
-					include compositions/form.pug
 		script(src='/assets/js/zeroside.js')
-		include compositions/footer.pug
+		//include compositions/footer.pug

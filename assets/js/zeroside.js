@@ -98,9 +98,9 @@ var upload = function() {
                 console.log(json);
 
                 if (json.status == 'error') {
-                    notify("Upload failed, please retry", "is-danger");
+                    notify("Upload failed, please retry", "error");
                 } else {
-                    notify(json.data, "is-success");
+                    notify(json.data, "success");
                     document.getElementById('staturl').value = "https://www.zeroside.co/s/" + json.stat;
                 }
 

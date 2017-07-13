@@ -59,7 +59,7 @@ $router = new AltoRouter();
 
 # Setup Pug (#fix for better memory and views management)
 $pug = new \Pug\Pug(array(
-    'cache' => R . '/assets/cache',
+    //'cache' => R . '/assets/cache',
     'basedir' => R . '/views'
 ));
 

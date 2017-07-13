@@ -1,0 +1,127 @@
+/******************
+*   ZEROSIDE FS   *
+******************/
+
+@font-face {
+    font-family: "Cocogoose";
+    src: url('/assets/fonts/cocogoose.ttf');
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+
+    height: 30vh;
+    width: 100vw;
+
+    background: url('/assets/images/background/pattern.png') center center fixed;
+
+    border-bottom: 4px solid black;
+}
+
+.header h1 {
+    color: black;
+    font-family: 'Cocogoose', cursive;
+    font-size: 58pt;
+    line-height: 0px;
+}
+
+.push {
+    padding: 2%;
+}
+
+.paragraph {
+    font-family: 'Zilla Slab', serif;
+    font-size: 16pt;
+}
+
+.paragraph a {
+    color: black;
+    text-decoration: none;
+    border-bottom: 1px dotted grey;
+}
+
+.big {
+    font-size: 18pt;
+}
+
+.small {
+    font-size: 14pt;
+}
+
+.center {
+    text-align: center;
+}
+
+.icon {
+    height: 92px;
+    width: 92px;
+}
+
+.form {
+    background: url('/assets/images/background/pattern.png') center center fixed;
+
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+}
+
+input, select, button {
+    width: 20rem;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 0.75%;
+    text-align: center;
+    outline: none;
+    font-size: 11pt;
+    background: white;
+}
+
+.s {
+    border: 1px solid #98ffff;
+    background: #98ffff;
+}
+
+.notification {
+    display: block;
+    border: none;
+    background: #222;
+    padding: 1%;
+    color: white;
+    border-radius: 4px;
+    font-family: 'Zilla Slab', serif;
+    font-size: 12pt;
+}
+
+.notification a {
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px dotted whitesmoke;
+}
+
+.success {
+    background: #639c43;
+}
+
+.error {
+    background: #ba0303;
+}
+
+.help {
+    font-family: 'Zilla Slab', serif;
+    font-size: 12pt;
+}
+
+@media screen and (max-width: 470px){
+    .header h1 {
+        font-size: 36pt;
+    }
+}
